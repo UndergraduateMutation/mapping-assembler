@@ -1,7 +1,7 @@
 CXX := g++
 CXXFLAGS := -std=c++17 -Wall -Wextra -pedantic -O2
 
-SRCS := main.cpp
+SRCS := main.cpp ./src/*.cpp
 
 TARGET := main
 
