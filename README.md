@@ -39,3 +39,7 @@ To run:
 The algorithm argument can be of the value `sa` for suffix array, `naive` for the naive approach, and `kmp` for KMP.
 
 By default the suffix array solution will be used.
+
+## References
+
+Juha Kärkkäinen, J., Sanders, P., & Burkhardt, S. (n.d.). Linear work suffix array construction - University of Helsinki. https://www.cs.helsinki.fi/u/tpkarkka/publications/jacm05-revised.pdf
