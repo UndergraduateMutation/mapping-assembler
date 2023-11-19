@@ -32,7 +32,7 @@ void compute_lps(const std::string& pattern, int n, std::vector<int>& lps) {
 	}
 }
 
-void kmp(const std::string& pattern, const std::string& text, std::vector<int>& occurences){
+void kmp(const std::string& pattern, const std::string& text, std::vector<int>& occurences) {
 	int m = pattern.length();
 	int n = text.length();
 
@@ -143,7 +143,7 @@ std::vector<int> build_sa(const std::string& text) {
 	return result;
 }
 
-void find_occurences(const std::string& pattern, const std::string& text, const std::vector<int>& suffix_array, std::vector<int>& result){
+void find_occurences(const std::string& pattern, const std::string& text, const std::vector<int>& suffix_array, std::vector<int>& result) {
 	int minIndex = 0;
 	int maxIndex = text.size();
 	while(minIndex < maxIndex) {
@@ -181,10 +181,10 @@ std::string get_consensus(const std::vector<std::string>& reads) {
         return "";
     }
 
-    int readLength = reads[0].size();
-    std::string consensus(readLength, ' ');
+    int read_length = reads[0].size();
+    std::string consensus(read_length, ' ');
 
-    for (int i = 0; i < readLength; i++) {
+    for (int i = 0; i < read_length; i++) {
         std::unordered_map<char, int> counts;
 
         for (const std::string& read : reads) {
@@ -196,17 +196,17 @@ std::string get_consensus(const std::vector<std::string>& reads) {
             }
         }
 
-        char mostFrequentBase = 'N';
-        int maxCount = 0;
+        char most_freq_base = 'N';
+        int max_count = 0;
 
         for (const auto& pair : counts) {
-            if (pair.second > maxCount) {
-                maxCount = pair.second;
-                mostFrequentBase = pair.first;
+            if (pair.second > max_count) {
+                max_count = pair.second;
+                most_freq_base = pair.first;
             }
         }
 
-        consensus[i] = mostFrequentBase;
+        consensus[i] = most_freq_base;
     }
 
     return consensus;
@@ -252,7 +252,7 @@ void assemble_sa(std::string& reference, std::vector<std::string>& reads, std::o
 	out << assembly.str();
 }
 
-void assemble_kmp(std::string& reference, std::vector<std::string>& reads, std::ofstream& out){
+void assemble_kmp(std::string& reference, std::vector<std::string>& reads, std::ofstream& out) {
 	int index = 0;
 	std::vector<std::pair<int, int>> assembledReads;
     for (const auto& read : reads) {
@@ -291,7 +291,7 @@ void assemble_kmp(std::string& reference, std::vector<std::string>& reads, std::
 	out << assembly.str();
 }
 
-void assemble_naive(std::string& reference, std::vector<std::string>& reads, std::ofstream& out){
+void assemble_naive(std::string& reference, std::vector<std::string>& reads, std::ofstream& out) {
 	int index = 0;
 	size_t max_mismatches = 5;
 	size_t seed_len = 5;
@@ -352,8 +352,8 @@ void assemble_naive(std::string& reference, std::vector<std::string>& reads, std
 	out << assembly.str();
 }
 
-void assemble(std::string& reference, std::vector<std::string>& reads, std::ofstream& out, const alg algo){
-	switch(algo){
+void assemble(std::string& reference, std::vector<std::string>& reads, std::ofstream& out, const alg algo) {
+	switch(algo) {
 		case alg::sa:
 			assemble_sa(reference, reads, out);
 			return;
