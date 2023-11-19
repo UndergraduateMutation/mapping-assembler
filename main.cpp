@@ -415,9 +415,27 @@ void assemble(std::string& reference, std::vector<std::string>& reads, std::ofst
 	}
 }
 
-int main() {
-    std::ifstream in_ref("reference.txt");
-    std::ifstream in_reads("reads.txt");
+int main(int argc, char *argv[]) {
+	if(argc != 4){
+		std::cout << "USAGE: " << argv[0] << " <path/to/reads> <path/to/reference> <algorithm>\n";
+		std::cout << "ALGORITHMS: sa, naive, kmp\n";
+		return 1;
+	}
+
+	std::string reads_path(argv[1]);
+	std::string reference_path(argv[2]);
+	std::string algorithm(argv[3]);
+
+	alg algo = alg::sa;
+
+	if(algorithm == "kmp") {
+		algo = alg::knuth;
+	} else if (algorithm == "naive"){
+		algo = alg::naive;
+	}
+
+    std::ifstream in_ref(reference_path);
+    std::ifstream in_reads(reads_path);
     std::ofstream out("output.txt");
     std::stringstream ref;
 
@@ -436,7 +454,7 @@ int main() {
     ref.str(""); 
     ref.clear();
 
-	assemble(reference, reads, out, alg::sa);
+	assemble(reference, reads, out, algo);
    
     in_ref.close();
     in_reads.close();
