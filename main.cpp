@@ -32,20 +32,17 @@ void assemble_sa(std::string& reference, std::vector<std::string>& reads, std::o
         return a.first < b.first;
     });
 
-	std::stringstream assembly;
 	int cursor = assembled_reads[0].first;
 	for(const auto& p: assembled_reads){
 		if(cursor > p.first){
 			size_t overlap = cursor - p.first;
-			assembly << reads[p.second].substr(overlap, reads[p.second].length());
+			out << reads[p.second].substr(overlap, reads[p.second].length());
 			cursor += reads[p.second].length() - overlap;
 		} else {
-			assembly << reads[p.second];
+			out << reads[p.second];
 			cursor += reads[p.second].length();
 		}
 	}
-
-	out << assembly.str();
 }
 
 void assemble_kmp(std::string& reference, std::vector<std::string>& reads, std::ofstream& out) {
@@ -64,20 +61,17 @@ void assemble_kmp(std::string& reference, std::vector<std::string>& reads, std::
         return a.first < b.first;
     });
 
-	std::stringstream assembly;
 	int cursor = assembled_reads[0].first;
 	for(const auto& p: assembled_reads){
 		if(cursor > p.first){
 			size_t overlap = cursor - p.first;
-			assembly << reads[p.second].substr(overlap, reads[p.second].length());
+			out << reads[p.second].substr(overlap, reads[p.second].length());
 			cursor += reads[p.second].length() - overlap;
 		} else {
-			assembly << reads[p.second];
+			out << reads[p.second];
 			cursor += reads[p.second].length();
 		}
 	}
-
-	out << assembly.str();
 }
 
 void assemble_naive(std::string& reference, std::vector<std::string>& reads, std::ofstream& out) {
@@ -86,7 +80,7 @@ void assemble_naive(std::string& reference, std::vector<std::string>& reads, std
 	size_t seed_len = 5;
 	std::vector<std::tuple<int, int, int, int>> matching_reads;
 	for (const auto& read : reads) {
-        int rand_index = rand() % (seed_len + 1);
+        int rand_index = rand() % (read.length() - seed_len);
         size_t i = reference.find(read.substr(rand_index, seed_len));
         if (i != std::string::npos) {
             size_t count = 0, read_end, ref_end, read_start, ref_start, mismatch;
@@ -117,21 +111,18 @@ void assemble_naive(std::string& reference, std::vector<std::string>& reads, std
         return std::get<0>(a) < std::get<0>(b);
     });
 
-	std::stringstream assembly;
 	int cursor = std::get<0>(matching_reads[0]);
 	for(const auto& p: matching_reads){
 		std::string matching_string = reads[std::get<3>(p)].substr(std::get<1>(p), std::get<2>(p));
 		if(cursor > std::get<0>(p)){
 			size_t overlap = cursor - std::get<0>(p);
-			assembly << matching_string.substr(overlap, matching_string.length());
+			out << matching_string.substr(overlap, matching_string.length());
 			cursor += matching_string.length() - overlap;
 		} else {
-			assembly << matching_string;
+			out << matching_string;
 			cursor += matching_string.length();
 		}
 	}
-
-	out << assembly.str();
 }
 
 void assemble(std::string& reference, std::vector<std::string>& reads, std::ofstream& out, const alg algo) {
